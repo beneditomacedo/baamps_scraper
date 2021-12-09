@@ -1,8 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
+import csv
+import sys
 
 DRIVER_PATH = '/usr/local/bin/chromedriver'
+BAAMPS_FILE = 'BaAMPs.csv'
 
 options = Options()
 options.headless = True
@@ -11,7 +15,11 @@ driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 
 URL = 'http://www.baamps.it/experimentlist'
 
-driver.get(URL)
+try:
+    driver.get(URL)
+except TimeoutException as ex:
+    print('Timeout getting URL', ex)
+    sys.exit(1)
 
 
 def get_experiment(elements):
@@ -32,4 +40,8 @@ for r in rows:
     elements = r.find_elements(By.TAG_NAME, 'td')
     experiments.append(get_experiment(elements))
 
-print(experiments)
+with open(BAAMPS_FILE, 'w', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerows(experiments)
+
+sys.exit(0)
