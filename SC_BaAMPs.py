@@ -6,6 +6,7 @@ import csv
 import sys
 
 DRIVER_PATH = '/usr/local/bin/chromedriver'
+URL = 'http://www.baamps.it/experimentlist'
 BAAMPS_FILE = 'BaAMPs.csv'
 
 options = Options()
@@ -13,7 +14,7 @@ options.headless = True
 options.add_argument("--windows-size=1920,1200")
 driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 
-URL = 'http://www.baamps.it/experimentlist'
+
 
 try:
     driver.get(URL)
