@@ -13,18 +13,23 @@ URL = 'http://www.baamps.it/experimentlist'
 
 driver.get(URL)
 
-rows = driver.find_elements_by_class_name('row0')
-
-firstLine = rows[0]
-
-elements = firstLine.find_elements(By.TAG_NAME, 'td')
-
 
 def get_experiment(elements):
     experiment = []
+
     for e in elements:
         experiment.append(e.text)
+
+    experiment[4] = experiment[4].replace("\n", " ")
+
     return experiment
 
 
-print(get_experiment(elements))
+rows = driver.find_elements_by_class_name('row0')
+
+experiments = []
+for r in rows:
+    elements = r.find_elements(By.TAG_NAME, 'td')
+    experiments.append(get_experiment(elements))
+
+print(experiments)
