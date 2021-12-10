@@ -9,18 +9,13 @@ DRIVER_PATH = '/usr/local/bin/chromedriver'
 URL = 'http://www.baamps.it/experimentlist'
 BAAMPS_FILE = 'BaAMPs.csv'
 
-options = Options()
-options.headless = True
-options.add_argument("--windows-size=1920,1200")
-driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 
-
-
-try:
-    driver.get(URL)
-except TimeoutException as ex:
-    print('Timeout getting URL', ex)
-    sys.exit(1)
+def get_driver():
+    options = Options()
+    options.headless = True
+    options.add_argument("--windows-size=1920,1200")
+    driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
+    return driver
 
 
 def get_experiment(elements):
@@ -32,6 +27,15 @@ def get_experiment(elements):
     experiment[4] = experiment[4].replace("\n", " ")
 
     return experiment
+
+
+driver = get_driver()
+
+try:
+    driver.get(URL)
+except TimeoutException as ex:
+    print('Timeout getting URL', ex)
+    sys.exit(1)
 
 
 rows = driver.find_elements_by_class_name('row0')
