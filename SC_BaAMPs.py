@@ -10,12 +10,32 @@ URL = 'http://www.baamps.it/experimentlist'
 BAAMPS_FILE = 'BaAMPs.csv'
 
 
-def get_driver():
+def get_driver(driver_path):
     options = Options()
     options.headless = True
     options.add_argument("--windows-size=1920,1200")
-    driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
+    driver = webdriver.Chrome(options=options, executable_path=driver_path)
     return driver
+
+
+def set_url(d, url):
+    try:
+        d.get(URL)
+    except TimeoutException as ex:
+        print('Timeout getting URL', ex)
+        sys.exit(1)
+    return
+
+
+def get_experiments(d):
+    rows = d.find_elements_by_class_name('row0')
+
+    experiments = []
+    for r in rows:
+        elements = r.find_elements(By.TAG_NAME, 'td')
+        experiments.append(get_experiment(elements))
+
+    return experiments
 
 
 def get_experiment(elements):
@@ -29,24 +49,33 @@ def get_experiment(elements):
     return experiment
 
 
-driver = get_driver()
+def write_csv(file, data):
 
-try:
-    driver.get(URL)
-except TimeoutException as ex:
-    print('Timeout getting URL', ex)
-    sys.exit(1)
+    with open(file, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(data)
+
+    return
 
 
-rows = driver.find_elements_by_class_name('row0')
+def main(driver_path, url, baamps_file):
 
-experiments = []
-for r in rows:
-    elements = r.find_elements(By.TAG_NAME, 'td')
-    experiments.append(get_experiment(elements))
+    driver = get_driver(driver_path)
 
-with open(BAAMPS_FILE, 'w', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerows(experiments)
+    set_url(driver, url)
+
+    experiments = get_experiments(driver)
+
+    write_csv(baamps_file, experiments)
+
+    return
+
+#
+# main
+
+
+if __name__ == '__main__':
+    main(DRIVER_PATH, URL, BAAMPS_FILE)
+
 
 sys.exit(0)
