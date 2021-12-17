@@ -77,6 +77,4 @@ def main(driver_path, url, baamps_file):
 
 if __name__ == '__main__':
     main(DRIVER_PATH, URL, BAAMPS_FILE)
-
-
-sys.exit(0)
+    sys.exit(0)
