@@ -27,6 +27,12 @@ def set_url(d, url):
     return
 
 
+def sanitizer_strings(s):
+    s = s.replace('\n', '')
+    s = s.replace('"', '') 
+    return s
+
+
 def get_experiments(d):
     rows = d.find_elements_by_class_name('row0')
 
@@ -44,6 +50,7 @@ def get_experiment(elements):
     for e in elements:
         experiment.append(e.text)
 
+    experiment[1] = experiment[1].replace("\n", "")
     experiment[4] = experiment[4].replace("\n", " ")
 
     return experiment
