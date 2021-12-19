@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 import csv
 import sys
+import time
 
 DRIVER_PATH = '/usr/local/bin/chromedriver'
 URL = 'http://www.baamps.it/experimentlist'
@@ -21,6 +22,7 @@ def get_driver(driver_path):
 def set_url(d, url):
     try:
         d.get(URL)
+        time.sleep(2)
     except TimeoutException as ex:
         print('Timeout getting URL', ex)
         sys.exit(1)
