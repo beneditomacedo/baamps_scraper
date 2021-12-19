@@ -10,6 +10,8 @@ import time
 DRIVER_PATH = '/usr/local/bin/chromedriver'
 URL = 'http://www.baamps.it/experimentlist'
 BAAMPS_FILE = 'BaAMPs.csv'
+EXPERIMENTS_TITLE = ['id', 'peptide', 'administration', 'microorganism',
+                     'activity']
 
 
 def get_driver(driver_path):
@@ -64,10 +66,11 @@ def get_experiment(elements):
     return experiment
 
 
-def write_csv(file, data):
+def write_csv(file, header, data):
 
     with open(file, 'w', newline='') as f:
         writer = csv.writer(f)
+        writer.writerow(header)
         writer.writerows(data)
 
     return
@@ -81,7 +84,7 @@ def main(driver_path, url, baamps_file):
 
     experiments = get_experiments(driver)
 
-    write_csv(baamps_file, experiments)
+    write_csv(baamps_file, EXPERIMENTS_TITLE, experiments)
 
     return
 
