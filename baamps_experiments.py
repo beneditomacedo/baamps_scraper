@@ -8,27 +8,16 @@ specifically tested against microbial biofilms.
 How to run:
         $ python baamps_experiments.py
 """
-from selenium.common.exceptions import TimeoutException
+from set_url import set_url
 from chrome_driver import get_driver
 from experiments import get_experiments
 from write_csv import write_csv
 import sys
-import time
 
 URL = 'http://www.baamps.it/experimentlist'
 BAAMPS_FILE = 'BaAMPs.csv'
 EXPERIMENTS_TITLE = ['id', 'peptide', 'administration', 'microorganism',
                      'activity']
-
-
-def set_url(d, url):
-    try:
-        d.get(URL)
-        time.sleep(2)
-    except TimeoutException as ex:
-        print('Timeout getting URL', ex)
-        sys.exit(1)
-    return
 
 
 def main(url, baamps_file):
@@ -42,9 +31,6 @@ def main(url, baamps_file):
     write_csv(baamps_file, EXPERIMENTS_TITLE, experiments)
 
     return
-
-#
-# main
 
 
 if __name__ == '__main__':
