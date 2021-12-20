@@ -15,7 +15,7 @@ from write_csv import write_csv
 import sys
 
 URL = 'http://www.baamps.it/experimentlist'
-BAAMPS_FILE = 'BaAMPs.csv'
+BAAMPS_FILE = 'BaAMPs_experiments.csv'
 EXPERIMENTS_TITLE = ['id', 'peptide', 'administration', 'microorganism',
                      'activity']
 
