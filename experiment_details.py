@@ -8,7 +8,7 @@ def get_details(d, id):
     URL = 'http://www.baamps.it/experimentlist?task=experiment.display&ID='
 
     url = URL + id
-    
+
     set_url(d, url)
 
     details = []

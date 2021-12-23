@@ -17,7 +17,8 @@ import sys
 URL = 'http://www.baamps.it/experimentlist'
 BAAMPS_FILE = 'BaAMPs_experiments.csv'
 EXPERIMENTS_TITLE = ['id', 'peptide', 'administration', 'microorganism',
-                     'activity']
+                     'activity', 'method', 'amp effect', 'concentration',
+                     'notes']
 
 
 def main(url, baamps_file):
